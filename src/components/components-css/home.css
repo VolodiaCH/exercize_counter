@@ -1,0 +1,70 @@
+    .dropdown-block {
+        padding-top: 25px;
+        display: flex; 
+        justify-content: space-between;
+    }
+
+    .input-block {
+        width: 100%;
+        padding-left: 25px; 
+    }
+
+    /* .inputs {
+        display: flex;
+    } */
+
+    .done-exersizes-block  {
+        display: flex; 
+        justify-content: space-between;
+    }
+
+    .done-exersizes-name {
+        font-size: 25px;
+        padding-left: 20px;
+        /* padding-left: 20px; */
+        padding-top: 10px;
+    }
+    
+    .done-exersizes-time {
+        font-size: 18px;
+        color: gray;
+        padding-left: 20px;
+        padding-top: 10px;
+    }
+    
+    .done-exersizes-times {
+        /* padding-left: 15px; */
+        padding-left: 20px;
+        padding-top: 10px;
+        font-size: 20px;
+    }
+
+    .icons {
+        justify-content: space-between;
+        font-size: 20px;
+        display: flex;
+    }
+
+    .edit-icon {
+        cursor: pointer;
+    }
+
+    .delete-icon {
+        padding-left: 10px;
+        cursor: pointer;
+    }
+
+    
+
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
+  input[type=time]::-webkit-clear-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance:none;
+    appearance: none;
+    margin: -10px; 
+  }
