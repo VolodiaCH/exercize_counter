@@ -43,7 +43,7 @@ class NewChallenge extends Component {
         else this.setState({ error: null });
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.post('http://localhost:3000/api/newChallenge', values)
+        axios.post(`${process.env.REACT_APP_API_URL}/newChallenge`, values)
             .then(res => {
                 const snackbar = {
                     message: `Started challenge "${values.challenge_name}".`,
@@ -57,7 +57,7 @@ class NewChallenge extends Component {
 
         if (this.state.publish) {
             const nofication_values = [localStorage.id, `@${localStorage.username} created new challenge "${this.state.challengeName}".`];
-            axios.post(`http://localhost:3000/api/create-nofications`, nofication_values);
+            axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, nofication_values);
         }
     }
 

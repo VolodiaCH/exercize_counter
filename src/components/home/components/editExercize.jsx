@@ -29,7 +29,7 @@ class EditExercize extends Component {
         else this.setState({ error: null });
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.put('http://localhost:3000/api/updateRecord', values)
+        axios.put(`${process.env.REACT_APP_API_URL}/updateRecord`, values)
             .then(res => {
                 window.location.reload();
             })

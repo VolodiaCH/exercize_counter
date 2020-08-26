@@ -30,12 +30,12 @@ class NavBar extends Component {
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
 		// get authorised user data
-		axios.get('http://localhost:3000/api/myProfile')
+		axios.get(`${process.env.REACT_APP_API_URL}/myProfile`)
 			.then(res => this.setState({ avatar: res.data.avatar }))
 			.catch(error => this.setState({ error }));
 
 		// get nofication
-		axios.get('http://localhost:3000/api/get-nofications')
+		axios.get(`${process.env.REACT_APP_API_URL}/get-nofications`)
 			.then(result => this.setState({ nofications: result.data.filter(elem => !elem.seen) }))
 			.catch(error => this.setState({ error }));
 	}
@@ -55,13 +55,12 @@ class NavBar extends Component {
 	changeColor = color => this.setState({ logOutColor: color });
 
 	render() {
-		const smallScreen = this.state.screenWidth > 450;
-		const showLables = smallScreen ? "" : "none";
+		const showLables = this.state.screenWidth > 450 ? "" : "none"; // showLables if big screen - yes; else - no
 
 		const menuStyle = this.state.authorised ? "" : "none";
 
 		const signOutStyle = this.state.authorised ? "" : "none";
-		const signInStyle = this.state.authorised ? "none" : "";
+		const signInStyle = this.state.screenWidth < 450 ? "" : this.state.authorised ? "none" : "";
 
 		const defaultProps = {
 			color: 'secondary',
@@ -99,13 +98,13 @@ class NavBar extends Component {
 					{/* right menu */}
 					<ul className="navbar-nav">
 						{/* login */}
-						<li style={{ display: showLables }} className="nav-item">
+						<li className="nav-item">
 							<NavLink className="nav-link" to="/login" style={{ display: signInStyle }}>
 								Login
           					</NavLink>
 						</li>
 						{/* register */}
-						<li style={{ display: showLables }} className="nav-item">
+						<li className="nav-item">
 							<NavLink className="nav-link" to="/register" style={{ display: signInStyle }}>
 								Register
           					</NavLink>
@@ -135,17 +134,17 @@ class NavBar extends Component {
 							</NavLink>
 						</li>
 
-						<li className="nav-item dropdown dropleft">
-							{/* avatar */}
+						{/* avatar */}
+						<li className="nav-item dropdown dropleft" style={{ display: this.state.authorised ? "" : "none" }}>
 							<div id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={this.showHideDropDown}>
 								{
 									this.state.avatar
-										? <Avatar alt="avatar" src={this.state.avatar} style={{ width: "35px", height: "35px", cursor: "pointer" }} />
-										: <Avatar src="/broken-image.jpg" style={{ width: "35px", height: "35px", cursor: "pointer" }} />
+										? <Avatar alt="avatar" src={this.state.avatar} style={{ width: "35px", height: "35px", cursor: "pointer" }} /> // if avatar exist show it
+										: <Avatar src="/broken-image.jpg" style={{ width: "35px", height: "35px", cursor: "pointer" }} /> // else show "no avatar" image
 								}
 							</div>
 
-							{/* dropdown menu */}
+							{/* dropdown menu (from avatar) */}
 							<div className={this.state.showDropDown ? "dropdown-menu show" : "dropdown-menu"} aria-labelledby="navbarDropdown">
 								<button className="dropdown-item" onClick={() => window.location = "/login"}>
 									Login

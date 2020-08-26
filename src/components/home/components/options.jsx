@@ -4,7 +4,8 @@ class Options extends Component {
     state = {
         option: null,
 
-        toggleOpen: false
+        challengeToggleOpen: false,
+        exercizePlanToggleOpen: false
     }
 
     choseOption = option => {
@@ -12,7 +13,8 @@ class Options extends Component {
         this.props.option(option);
     }
 
-    openToggle = () => this.setState({ toggleOpen: !this.state.toggleOpen })
+    openChallengeToggle = () => this.setState({ challengeToggleOpen: !this.state.challengeToggleOpen });
+    openExercizePlanToggle = () => this.setState({ exercizePlanToggleOpen: !this.state.exercizePlanToggleOpen });
 
     render() {
         const smallScreen = this.props.smallScreen;
@@ -33,8 +35,8 @@ class Options extends Component {
             <div className={smallScreen ? "btn-group-vertical" : "btn-group"} role="group" style={styles.buttons.constainer}>
                 {
                     this.state.option === "New exercize"
-                        ? <button onClick={() => this.choseOption(null)} className="btn btn-secondary">New exercize</button>
-                        : <button onClick={() => this.choseOption("New exercize")} className="btn btn-outline-secondary">New exercize</button>
+                        ? <button onClick={() => this.choseOption(null)} className="btn btn-secondary">New record</button>
+                        : <button onClick={() => this.choseOption("New exercize")} className="btn btn-outline-secondary">New record</button>
                 }
 
                 <div className="btn-group" role="group">
@@ -45,19 +47,41 @@ class Options extends Component {
                         aria-haspopup="true"
                         aria-expanded="false"
 
-                        onClick={this.openToggle}
+                        onClick={this.openChallengeToggle}
                         className={
-                            this.state.toggleOpen
+                            this.state.challengeToggleOpen
                                 ? "btn btn-secondary dropdown-toggle"
                                 : "btn btn-outline-secondary dropdown-toggle"
                         }
                     > Challenges </button>
 
-                    <div className={this.state.toggleOpen ? "dropdown-menu show" : "dropdown-menu"} aria-labelledby="btnGroupDrop1">
-                        <button onClick={() => this.choseOption("New challenge")} className="dropdown-item">New challenge</button>
+                    <div className={this.state.challengeToggleOpen ? "dropdown-menu show" : "dropdown-menu"} aria-labelledby="btnGroupDrop1">
+                        <button onClick={() => this.choseOption("New challenge")} className="dropdown-item">Create challenge</button>
                         <button onClick={() => this.choseOption("Accept challenge")} className="dropdown-item">Accept challenge</button>
                     </div>
                 </div>
+
+                {/* <div className="btn-group" role="group">
+                    <button
+                        id="btnGroupDrop1"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+
+                        onClick={this.openExercizePlanToggle}
+                        className={
+                            this.state.exercizePlanToggleOpen
+                                ? "btn btn-secondary dropdown-toggle"
+                                : "btn btn-outline-secondary dropdown-toggle"
+                        }
+                    > Exercize plan </button>
+
+                    <div className={this.state.exercizePlanToggleOpen ? "dropdown-menu show" : "dropdown-menu"} aria-labelledby="btnGroupDrop1">
+                        <button onClick={() => this.choseOption("Edit exercize plan")} className="dropdown-item">Edit exercize plan</button>
+                        <button onClick={() => this.choseOption("Todays exercize plan progress")} className="dropdown-item">Todays exercize plan progress</button>
+                    </div>
+                </div> */}
 
                 {
                     this.state.option === "Show challenge progress"

@@ -23,12 +23,12 @@ class UsersList extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // get list of users
-        axios.get('http://localhost:3000/api/list-of-users')
+        axios.get(`${process.env.REACT_APP_API_URL}/list-of-users`)
             .then(res => this.setState({ users: res.data }))
             .catch(error => this.setState({ error }));
 
         // get list of followers 
-        axios.get('http://localhost:3000/api/followers')
+        axios.get(`${process.env.REACT_APP_API_URL}/followers`)
             .then(res => this.setState({ followers_list: res.data.filter(elem => elem.follower_id === parseInt(localStorage.id)) }))
             .catch(error => this.setState({ error }));
     }
@@ -40,7 +40,7 @@ class UsersList extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // handle follow
-        axios.post('http://localhost:3000/api/follow?' + id)
+        axios.post(`${process.env.REACT_APP_API_URL}/follow?${id}`)
             .then(result => {
                 // adding new record to followers_list
                 const newRecord = {
@@ -64,7 +64,7 @@ class UsersList extends Component {
         };
 
         // post nofication to `nofications` DB
-        axios.post(`http://localhost:3000/api/create-nofications`, values)
+        axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, values)
             .catch(error => this.setState({ error }));
     }
 
@@ -75,7 +75,7 @@ class UsersList extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // handle unfollow
-        axios.delete('http://localhost:3000/api/unfollow?' + id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/unfollow?` + id)
             .then(result => {
                 // deleting record from followers_list 
                 const followers_list = this.state.followers_list.filter(record => id !== record.user_id);
@@ -103,7 +103,7 @@ class UsersList extends Component {
                         style={{
                             cursor: "pointer",
                             float: "right",
-                            paddingTop: "7px"
+                            paddingTop: "7px",
                         }}
                     ></i>
                 </DialogTitle>
@@ -131,7 +131,9 @@ class UsersList extends Component {
                                         let username = `${current_user.username}`;
 
                                         // if very small screen and username length >= 10 replace letters with index more than 10 with "..."
-                                        if (username.length > 10 && smallScreen) username = username.slice(0, 10) + "...";
+                                        if (username.length > 10 && smallScreen && !me) username = username.slice(0, 10) + "...";
+                                        else if (username.length > 15 && this.props.screenWidth < 400 && !me) username = username.slice(0, 15) + "...";
+                                        else if (username.length > 20 && this.props.screenWidth < 700 && !me) username = username.slice(0, 20) + "..."
 
                                         // avatar
                                         const avatarStyle = { width: "25px", height: "25px", cursor: "pointer" };
@@ -147,7 +149,7 @@ class UsersList extends Component {
                                             <ListItem key={current_user.id} button>
                                                 {avatar}
                                                 &nbsp;
-                                                    {/* username */}
+                                                {/* username */}
                                                 @<ListItemText primary={username} onClick={() => this.redirectToUserProfile(current_user.username)} button />
                                                 &nbsp;
                                                 &nbsp;

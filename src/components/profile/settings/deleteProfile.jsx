@@ -25,7 +25,7 @@ class DeleteProfile extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // handle delete profile
-        axios.delete('http://localhost:3000/api/deleteProfile?' + this.props.id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/deleteProfile?` + this.props.id)
             .then(res => {
                 localStorage.clear();
                 window.location = "/register";

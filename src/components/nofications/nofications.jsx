@@ -31,7 +31,7 @@ class Nofications extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // get all nofications
-        axios.get('http://localhost:3000/api/get-nofications')
+        axios.get(`${process.env.REACT_APP_API_URL}/get-nofications`)
             .then(result => this.setState({ nofications: result.data.reverse() }))
             .catch(error => this.setState({ error }));
     }
@@ -45,7 +45,7 @@ class Nofications extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // check nofication as seen
-        axios.put(`http://localhost:3000/api/check-nofication-as-seen?id=${nofication_id}`)
+        axios.put(`${process.env.REACT_APP_API_URL}/check-nofication-as-seen?id=${nofication_id}`)
             .then(result => {
                 // create new nofications list with checked nofication as seen
                 const nofications = this.state.nofications.map(nofication => {
@@ -70,7 +70,7 @@ class Nofications extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // delete nofication from `nofications` DB
-        axios.delete(`http://localhost:3000/api/delete-nofication?id=${nofication_id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/delete-nofication?id=${nofication_id}`)
             .then(result => {
                 const nofications = this.state.nofications.filter(nofication => nofication.id !== nofication_id);
 
@@ -104,11 +104,9 @@ class Nofications extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // set all nofications as seen for current_user
-        axios.put(`http://localhost:3000/api/check-all-nofications-as-seen`)
-            .then(res => {
-                console.log("checked");
-                window.location.reload();
-            }).catch(error => this.setState({ error }));
+        axios.put(`${process.env.REACT_APP_API_URL}/check-all-nofications-as-seen`)
+            .then(res => window.location.reload())
+            .catch(error => this.setState({ error }));
     }
 
     deleteAll = () => {
@@ -116,11 +114,9 @@ class Nofications extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // delete all nofications for current_user
-        axios.delete(`http://localhost:3000/api/delete-all-nofications`)
-            .then(res => {
-                console.log("deleted");
-                window.location.reload();
-            }).catch(error => this.setState({ error }));
+        axios.delete(`${process.env.REACT_APP_API_URL}/delete-all-nofications`)
+            .then(res => window.location.reload())
+            .catch(error => this.setState({ error }));
     }
 
     getStyles = (smallScreen, unseenNofications) => {
@@ -130,12 +126,13 @@ class Nofications extends Component {
             },
             heading: {
                 container: {
-                    display: "flex",
+                    display: smallScreen ? "" : "flex",
                     justifyContent: "space-between"
                 },
                 buttons: {
                     container: {
-                        display: "flex"
+                        display: "flex",
+                        paddingTop: smallScreen ? "10px" : "0px"
                     },
                     button: {
                         paddingLeft: "10px"
@@ -246,7 +243,7 @@ class Nofications extends Component {
                                 // get first word (username)
                                 let username = message_words[0].substring();
 
-                                // if first word isn't username delete it 
+                                // if first word isn't username - delete it 
                                 if (!username.startsWith("@")) username = "";
 
                                 // creating message without @username

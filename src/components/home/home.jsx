@@ -13,7 +13,7 @@ import Loading from "../common/loading";
 import axios from "axios";
 import Alert from "../common/alert";
 import Error from "../common/error";
-import "../components-css/home.css";
+import "./home.css";
 
 class Home extends Component {
     state = {
@@ -65,7 +65,7 @@ class Home extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // get all records for authorised user
-        await axios.get(`http://localhost:3000/api/getRecords?id=${localStorage.id}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/records?id=${localStorage.id}`)
             .then(res => {
                 const now = new Date();
 
@@ -120,7 +120,7 @@ class Home extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // delete record from `counter` DB
-        axios.delete(`http://localhost:3000/api/deleteRecord?id=${recordId}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/deleteRecord?id=${recordId}`)
             .then(res => {
                 // creating new exercizes list without deleted record
                 let exersizesList = this.state.exersizesList.filter(record => recordId !== record.exersize_id);
@@ -132,45 +132,50 @@ class Home extends Component {
             .catch(error => this.setState({ error }));
     }
 
+    addMinutes = (date, minutes) => new Date(date.getTime() + minutes * 60000);
+
     editRecord = recordId => {
         // get choosed exercize for edit
         const exercize = this.state.exersizesList.filter(elem => elem.exersize_id === recordId)[0];
         this.setState({ edit: exercize });
     }
 
-    createRecord = record => {
+    createRecord = record => { // imitation
         let { exersizesList, fullList } = this.state;
+
+        // const exercizeTime = this.addMinutes(record.time, new Date().getTimezoneOffset()); work
+        const exercizeTime = this.addMinutes(record.time, new Date().getTimezoneOffset());
+        // const exercizeTime = record.time;
+        console.log("now (Home component):", exercizeTime);
 
         // new record values
         const newRecord = {
             user_id: record.user_id,
             exersize_name: record.exersizeName,
-            exersize_time: record.time,
+            exersize_time: exercizeTime,
+            // exersize_time: record.time,
             exersize_count: record.times,
             exersize_id: record.id
         }
 
         // add new record to lists
-        exersizesList.push(newRecord)
+        exersizesList.push(newRecord);
         fullList.push(newRecord);
 
         this.setState({ exersizesList, fullList });
-        // this.hideOption();
         this.changePage(this.state.currentPage, false);
     }
 
-    hideOption = () => {
-        this.setState({ option: null });
-    }
+    hideOption = () => this.setState({ option: null });
 
     renderOption = () => {
-        const smallScreen = this.state.screenWidth < 450;
-        const { exersizesList } = this.state;
+        const { exersizesList, screenWidth } = this.state;
+        const smallScreen = screenWidth < 450;
 
         // return choosed option
         if (this.state.edit) return <EditExercize exercize={this.state.edit} list={exersizesList} smallScreen={smallScreen} />
         else if (this.state.option === "New exercize") return <NewExercizes smallScreen={smallScreen} list={this.state.fullList} createRecord={this.createRecord} />
-        else if (this.state.option === "New challenge") return <NewChallenge smallScreen={this.state.screenWidth < 800} list={exersizesList} />
+        else if (this.state.option === "New challenge") return <NewChallenge smallScreen={screenWidth < 800} list={exersizesList} />
         else if (this.state.option === "Show challenge progress") return <ChallengeProgress smallScreen={smallScreen} list={this.state.fullList} />
         else if (this.state.option === "Show stats for today") return <TodaysStats smallScreen={smallScreen} list={this.state.fullList} />
         else return null
@@ -196,7 +201,7 @@ class Home extends Component {
         this.setState({ snackbar });
     }
 
-    changePage = (p, fullList) => {
+    changePage = (p, fullList) => { // (render)
         let page = [];
 
         const list = fullList ? this.state.fullList : this.state.exersizesList;
@@ -213,15 +218,15 @@ class Home extends Component {
     }
 
     render() {
-        const smallScreen = this.state.screenWidth < 450 ? true : false;
+        const smallScreen = this.state.screenWidth < 450;
 
         if (this.state.error) return <Error message={this.state.error.toString()} /> // handle error
         else if (!this.state.exersizesList) return <Loading /> // if data !recived show loading spiner
         else if (this.state.option === "Accept challenge") return <AcceptChallenge smallScreen={smallScreen} handleAcceptChallenge={this.handleAcceptChallenge} /> // display accept challenge page if it need
 
         // display full list if it need
-        if (this.state.option === "Show exercizes list for all time") this.showFullList(true)
-        else this.showFullList(false)
+        if (this.state.option === "Show exercizes list for all time") this.showFullList(true);
+        else this.showFullList(false);
 
         return (
             <div style={{ paddingTop: "25px" }}>

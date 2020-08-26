@@ -51,7 +51,7 @@ class UserProfile extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // get user data by username
-        axios.get('http://localhost:3000/api/user-profile?username=' + this.state.username)
+        axios.get(`${process.env.REACT_APP_API_URL}/user-profile?username=${this.state.username}`)
             .then(res => {
                 // if this username doesn't exist redirect to /not-found
                 if (res.data.length === 0) window.location = "/not-found";
@@ -61,7 +61,7 @@ class UserProfile extends Component {
                 const { id, name, about_me, instagram, avatar, created_at } = user;
 
                 // get followers for current user
-                axios.get('http://localhost:3000/api/followers?id=' + id)
+                axios.get(`${process.env.REACT_APP_API_URL}/followers?id=${id}`)
                     .then(result => {
                         // check if this user followed by authorised user
                         const followed = result.data.find(el => parseInt(localStorage.id) === el.follower_id && user.id === el.user_id);
@@ -69,7 +69,7 @@ class UserProfile extends Component {
                         const followers = this.getFollowersStats(result.data, id);
 
                         // get all records for user
-                        axios.get("http://localhost:3000/api/getRecords?id=" + user.id)
+                        axios.get(`${process.env.REACT_APP_API_URL}/getRecords?id=${user.id}`)
                             .then(r => {
                                 // update state with all recived data
                                 this.setState({
@@ -137,7 +137,7 @@ class UserProfile extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // create connections to server => follow current user
-        axios.post('http://localhost:3000/api/follow?' + this.state.id)
+        axios.post(`${process.env.REACT_APP_API_URL}/follow?${this.state.id}`)
             .then(result => { this.setState({ followingsList: this.getFollowersList() }) })
             .catch(error => this.setState({ error }));
 
@@ -149,7 +149,7 @@ class UserProfile extends Component {
         };
 
         // post values to `noficaitons` DB
-        axios.post(`http://localhost:3000/api/create-nofications`, values)
+        axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, values)
             .catch(error => this.setState({ error }));
 
         // TODO
@@ -163,7 +163,7 @@ class UserProfile extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // unfollow current user
-        axios.delete('http://localhost:3000/api/unfollow?' + this.state.id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/unfollow?${this.state.id}`)
             .then(result => { this.setState({ followingsList: this.getFollowersList() }) })
             .catch(error => this.setState({ error }));
 

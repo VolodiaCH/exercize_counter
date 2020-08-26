@@ -6,19 +6,27 @@ class Sort extends Component {
         dropdownOpen: false,
 
         searchInputValue: "",
-        dropdownValue: "Sort by",
-        searchDropdownValue: "Search by"
+        dropdownValue: this.props.sortBy[0],
+        searchDropdownValue: this.props.searchBy[0],
+
+        submit: false
     }
 
     openSearchDropdown = () => this.setState({ searchDropdownOpen: !this.state.searchDropdownOpen });
     openDropdown = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
 
-    onInputChange = event => this.setState({ searchInputValue: event.target.value });
+    onInputChange = event => {
+        let searchInputValue = event.target.value;
+
+        this.setState({ searchInputValue, submit: true });
+    };
 
     chooseSortByOption = option => this.setState({ dropdownValue: option, dropdownOpen: false });
     chooseSearchByOption = option => this.setState({ searchDropdownValue: option, searchDropdownOpen: false });
 
     handleSubmit = () => {
+        this.setState({ submit: false });
+
         const values = {
             sortBy: this.state.dropdownValue,
             searchBy: this.state.searchDropdownValue,
@@ -53,6 +61,8 @@ class Sort extends Component {
         // styles
         const { smallScreen } = this.props;
         const styles = this.getStyles(smallScreen);
+
+        if (this.state.submit) this.handleSubmit();
 
         return (
             <div>
@@ -126,7 +136,7 @@ class Sort extends Component {
 
                     {/* button */}
                     <div style={styles.button}>
-                        <button className="btn btn-primary" onClick={this.handleSubmit}> Search </button>
+                        <button className="btn btn-primary" onClick={this.handleSubmit}> Sort </button>
                     </div>
                 </div>
             </div >

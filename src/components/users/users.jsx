@@ -40,14 +40,14 @@ class Users extends Component {
 
 	getListOfUsers() {
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-		axios.get('http://localhost:3000/api/list-of-users')
+		axios.get(`${process.env.REACT_APP_API_URL}/list-of-users`)
 			.then(res => this.setState({ users: res.data }))
 			.catch(error => this.setState({ error }));
 	}
 
 	getFollowersList() {
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-		axios.get('http://localhost:3000/api/followers')
+		axios.get(`${process.env.REACT_APP_API_URL}/followers`)
 			.then(res => {
 				const id = parseInt(localStorage.id);
 				const followingsList = res.data.filter(elem => elem.follower_id === id);
@@ -60,7 +60,7 @@ class Users extends Component {
 		if (localStorage.length === 0) window.location = "/login"
 
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-		axios.post('http://localhost:3000/api/follow?' + id)
+		axios.post(`${process.env.REACT_APP_API_URL}/follow?${id}`)
 			.then(result => {
 				const newRecord = {
 					user_id: id,
@@ -78,7 +78,7 @@ class Users extends Component {
 			values: [id, `@${localStorage.username} started following you.`],
 			forFollowers: false
 		};
-		axios.post(`http://localhost:3000/api/create-nofications`, values)
+		axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, values)
 			.catch(error => this.setState({ error }));
 	}
 
@@ -86,7 +86,7 @@ class Users extends Component {
 		if (localStorage.length === 0) window.location = "/login"
 
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-		axios.delete('http://localhost:3000/api/unfollow?' + id)
+		axios.delete(`${process.env.REACT_APP_API_URL}/unfollow?${id}`)
 			.then(result => {
 				const followingsList = this.state.followingsList.filter(record => id !== record.user_id);
 
@@ -106,10 +106,11 @@ class Users extends Component {
 					return sorted_users.filter(elem => elem.name.toLowerCase().startsWith(sort_req.search.toLowerCase()));
 				} else if (sort_req.searchBy === "Username") {
 					return sorted_users.filter(elem => elem.username.toLowerCase().startsWith(sort_req.search.toLowerCase()));
+				} else if (sort_req.searchBy === "instagram") {
+					return users.filter(elem => elem.instagram ? elem.instagram.toLowerCase().startsWith(sort_req.search.toLowerCase()) : false);
 				}
 			} else return sorted_users
-		}
-		else if (sort_req.sortBy === "Old") {
+		} else if (sort_req.sortBy === "Old") {
 			const sorted_users = users.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
 			if (sort_req.search !== "") {
@@ -117,6 +118,8 @@ class Users extends Component {
 					return sorted_users.filter(elem => elem.name.toLowerCase().startsWith(sort_req.search.toLowerCase()));
 				} else if (sort_req.searchBy === "Username") {
 					return sorted_users.filter(elem => elem.username.toLowerCase().startsWith(sort_req.search.toLowerCase()));
+				} else if (sort_req.searchBy === "instagram") {
+					return users.filter(elem => elem.instagram ? elem.instagram.toLowerCase().startsWith(sort_req.search.toLowerCase()) : false);
 				}
 			} else return sorted_users
 		} else {
@@ -125,6 +128,8 @@ class Users extends Component {
 					return users.filter(elem => elem.name.toLowerCase().startsWith(sort_req.search.toLowerCase()));
 				} else if (sort_req.searchBy === "Username") {
 					return users.filter(elem => elem.username.toLowerCase().startsWith(sort_req.search.toLowerCase()));
+				} else if (sort_req.searchBy === "instagram") {
+					return users.filter(elem => elem.instagram ? elem.instagram.toLowerCase().startsWith(sort_req.search.toLowerCase()) : false);
 				}
 			} else return users
 		}
@@ -162,9 +167,11 @@ class Users extends Component {
 		if (this.state.sortReq) sortedUsers = this.sort(this.state.users, this.state.sortReq);
 		else sortedUsers = this.state.users;
 
+		// sort/search by
 		const sortBy = ["New", "Old"];
-		const searchBy = ["Name", "Username"];
+		const searchBy = ["Username", "Name", "instagram"];
 
+		// users list to render
 		const page = this.renderPage(sortedUsers);
 
 		return (
@@ -187,11 +194,14 @@ class Users extends Component {
 						let followed = false;
 						followings.forEach(id => user.id === id ? followed = true : null);
 
+						// displaying user username
 						let username = `@${user.username}`;
 
 						// if very small screen and username length >= 15 replace letters with index more than 15 with "..."
 						if (username.length > 13 && verySmallScreen) username = username.slice(0, 13) + "...";
+						else if (username.length > 18 && smallScreen) username = username.slice(0, 18) + "...";
 
+						// avatar
 						const avatarStyles = { width: "30px", height: "30px", cursor: "pointer" };
 						const avatar = user.avatar
 							? <Avatar src={user.avatar} style={avatarStyles} />
@@ -220,7 +230,9 @@ class Users extends Component {
 						);
 					})}
 				</div>
+
 				<hr />
+
 				<div style={{ paddingTop: "10px" }}>
 					<Paginate
 						list={this.state.users}

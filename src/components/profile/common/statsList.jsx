@@ -19,7 +19,7 @@ class StatsList extends Component {
 
     componentDidMount() {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.get(`http://localhost:3000/api/getRecords?id=${this.props.id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/records?id=${this.props.id}`)
             .then(res => {
                 this.setState({ stats: res.data });
                 this.getList();

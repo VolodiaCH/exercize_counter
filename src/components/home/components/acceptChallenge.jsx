@@ -36,16 +36,21 @@ class AcceptChallenge extends Component {
     componentDidMount = () => this.getValues();
 
     getValues = () => {
+        // set default authorization header with JWT token
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.get("http://localhost:3000/api/getChallenge")
+
+        // get all challenges
+        axios.get(`${process.env.REACT_APP_API_URL}/getChallenge`)
             .then(result => this.setState({ challenges: result.data.filter(elem => elem.global) }))
             .catch(error => this.setState({ error }));
 
-        axios.get("http://localhost:3000/api/get_likes")
+        // get all likes (of challenges)
+        axios.get(`${process.env.REACT_APP_API_URL}/get_likes`)
             .then(result => this.setState({ likes: result.data }))
             .catch(error => this.setState({ error }));
 
-        axios.get(`http://localhost:3000/api/getChallengers?id=${localStorage.id}`)
+        // get all challengers
+        axios.get(`${process.env.REACT_APP_API_URL}/getChallengers?id=${localStorage.id}`)
             .then(result => this.setState({ challengers: result.data }))
             .catch(error => this.setState({ error }));
 
@@ -54,7 +59,8 @@ class AcceptChallenge extends Component {
 
     handleLike = challenge => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.post("http://localhost:3000/api/like?id=" + challenge.challenge_id)
+
+        axios.post(`${process.env.REACT_APP_API_URL}/like?id=${challenge.challenge_id}`)
             .catch(error => this.setState({ error }));
 
         this.getValues();
@@ -89,7 +95,7 @@ class AcceptChallenge extends Component {
         ];
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.post("http://localhost:3000/api/accept-challenge", values)
+        axios.post(`${process.env.REACT_APP_API_URL}/accept-challenge`, values)
             .then(res => this.props.handleAcceptChallenge(challenge_req.challenge_name))
             .catch(error => this.setState({ error }));
 
@@ -97,13 +103,13 @@ class AcceptChallenge extends Component {
             values: [localStorage.id, `@${localStorage.username} started challenge "${challenge_req.challenge_name}".`],
             forFollowers: true
         };
-        axios.post(`http://localhost:3000/api/create-nofications`, nofication_values)
+        axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, nofication_values)
             .catch(error => this.setState({ error }));
     }
 
     handleDelete = challenge_id => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.delete(`http://localhost:3000/api/delete-challenge?id=${challenge_id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/delete-challenge?id=${challenge_id}`)
             .then(() => window.location.reload())
             .catch(error => this.setState({ error }));
     }

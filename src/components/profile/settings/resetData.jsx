@@ -26,7 +26,7 @@ class ResetData extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // DELETE * FROM `counter` WHERE user_id = [current authorised user id]
-        axios.delete('http://localhost:3000/api/deleteAllRecords?' + this.props.id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/deleteAllRecords?` + this.props.id)
             .then(res => window.location.reload())
             .catch(err => this.setState({ err }));
     }

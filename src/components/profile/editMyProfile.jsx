@@ -54,7 +54,7 @@ class EditProfile extends Component {
         if (!Object.values(errors).every(el => el === null)) return false
 
         // connect ot server => update user data
-        axios.put("http://localhost:3000/api/updateUserData", values)
+        axios.put(`${process.env.REACT_APP_API_URL}/updateUserData`, values)
             .then(res => {
                 // create success snackbar
                 const snackbar = {
@@ -248,6 +248,8 @@ class EditProfile extends Component {
                     show={this.state.showEditPhoto}
                     handleClose={this.handleCloseAvatarEdit}
                     handleUploadImage={this.handleUploadImage}
+
+                    screenWidth={this.props.screenWidth}
                 />
 
                 {/* FIRST CONTAINER */}

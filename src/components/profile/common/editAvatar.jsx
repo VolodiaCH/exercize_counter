@@ -59,6 +59,9 @@ class EditAvatar extends React.Component {
     render() {
         if (this.props !== this.state.props) this.setState({ open: this.props.url ? true : false, props: this.props });
 
+        const { screenWidth } = this.props;
+        const smallScreen = screenWidth < 350;
+
         return (
             <div style={{ display: this.props.show ? "" : "none" }}>
                 <Dialog
@@ -73,9 +76,9 @@ class EditAvatar extends React.Component {
                             <AvatarEditor
                                 ref={this.setEditorRef}
                                 image={this.props.url}
-                                width={300}
-                                height={300}
-                                border={50}
+                                width={smallScreen ? screenWidth - 100 : 300}
+                                height={smallScreen ? screenWidth - 100 : 300}
+                                border={smallScreen ? 20 : 30}
                                 color={[255, 255, 255, 0.6]} // RGBA
                                 scale={1 + this.state.scale * 0.03}
                                 rotate={0}

@@ -35,14 +35,14 @@ class ChallengeProgress extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // get challengers
-        axios.get("http://localhost:3000/api/getChallengers")
+        axios.get(`${process.env.REACT_APP_API_URL}/getChallengers`)
             .then(res => {
                 // get challenges
-                axios.get("http://localhost:3000/api/getChallenge")
+                axios.get(`${process.env.REACT_APP_API_URL}/getChallenge`)
                     .then(result => {
                         this.setState({
                             challenges: result.data,
-                            my_challenges: res.data.filter(elem => elem.challenger_id === parseInt(localStorage.id)),
+                            my_challenges: res.data.filter(challenge => challenge.challenger_id === parseInt(localStorage.id) && !challenge.hiden),
                             rendered: true
                         });
                     })
@@ -73,15 +73,29 @@ class ChallengeProgress extends Component {
 
     dismiss = id => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.delete(`http://localhost:3000/api/dismiss-challenge?id=${id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/dismiss-challenge?id=${id}`)
             .then(elem => window.location.reload())
     }
 
+    handleHide = id => {
+        console.log("challenge hided");
+        axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
+        axios.put(`${process.env.REACT_APP_API_URL}/hide-challenge?id=${id}`)
+            .then(res => {
+                window.location.reload();
+                let { my_challenges } = this.state;
+                my_challenges.filter(challenge => challenge.id === id);
+
+                this.setState({ my_challenges });
+            }).catch(err => console.error(err));
+    }
+
     handle_finish = (challenge_id, id) => {
+        console.log("challenge finished");
         const challenge_req = this.state.challenges.filter(elem => elem.challenge_id === challenge_id)[0];
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.put(`http://localhost:3000/api/finish-challenge?id=${id}`)
+        axios.put(`${process.env.REACT_APP_API_URL}/finish-challenge?id=${id}`)
             .then(res => {
                 // create success snackbar
                 const snackbar = {
@@ -100,7 +114,7 @@ class ChallengeProgress extends Component {
         };
 
         // post values to `nofications` DB
-        axios.post(`http://localhost:3000/api/create-nofications`, nofication_values)
+        axios.post(`${process.env.REACT_APP_API_URL}/create-nofications`, nofication_values)
             .catch(error => this.setState({ error }));
     }
 
@@ -110,7 +124,7 @@ class ChallengeProgress extends Component {
         // handle error
         else if (this.state.error) return <Error message={this.state.error.toString()} />
         // Don't display challenges if there all challenges is finished or if authorised user haven't done any challenges yet
-        else if (this.state.my_challenges.every(challenge => challenge.finished) || this.state.my_challenges.length === 0) return <h4 style={{ color: "gray" }}> There are no challenges. </h4>
+        else if (this.state.my_challenges.length === 0 || this.state.my_challenges.every(challenge => challenge.hiden)) return <h4 style={{ color: "gray" }}> There are no challenges. </h4>
 
         return (
             <div>
@@ -133,19 +147,18 @@ class ChallengeProgress extends Component {
 
                 {
                     this.state.my_challenges.map((challenge, idx) => {
-                        // Don't display if challenge finished
-                        if (challenge.finished) return <div key={idx}></div>
-
                         // get current challenge 
                         const current_challenge = this.state.challenges.filter(elem => elem.challenge_id === challenge.challenge_id)[0];
 
                         // get challenge start/finish time
                         const start_time = new Date(challenge.start_time);
                         const finish_time = new Date(challenge.finish_time);
+                        const current_time = this.addMinutes(new Date(), new Date().getTimezoneOffset());
 
                         // get exercizes list that was done within start/finish time of challenge and with exercize name === challenge req exercize name 
                         const exercizes = this.state.exercizes_list.filter(el => {
                             const currentExercizeTime = new Date(el.exersize_time);
+                            // console.log(currentExercizeTime, start_time, finish_time);
                             return currentExercizeTime >= start_time && currentExercizeTime <= finish_time && el.exersize_name === current_challenge.exercize_name
                         });
 
@@ -157,29 +170,44 @@ class ChallengeProgress extends Component {
                         const precent = this.getPercent(sum, current_challenge.exercize_count).toString() + "%";
 
                         // if precentes >= 100% handle finish challenge
-                        if (parseInt(precent) >= 100) this.handle_finish(challenge.challenge_id, challenge.id);
+                        if (parseInt(precent) >= 100 && !challenge.finished) this.handle_finish(challenge.challenge_id, challenge.id);
 
                         return (
                             <div key={idx}>
-                                {/* paragraf (don't display if index === 0) */}
+                                {/* br (don't display if index === 0) */}
                                 <div style={{ display: idx === 0 ? "none" : "" }}>
                                     <br />
                                 </div>
 
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <h4 className={100 <= parseInt(precent) ? "text-success" : ""}>
-                                        {/* challenge name */}
-                                        <span>"{current_challenge.challenge_name}"</span>
+                                    <h4>
 
-                                        {/* challenge progress in numbers (and dismiss icon) */}
-                                        <span>
-                                            ({sum} / {current_challenge.exercize_count})
-                                            &nbsp;
+                                        <span style={{ display: "flex" }}>
+                                            <div>
+                                                {/* challenge name */}
+                                                <span className={100 <= parseInt(precent) || challenge.finished ? "text-success" : ""}>"{current_challenge.challenge_name}"</span>
+                                                &nbsp;
+
+                                                {/* challenge progress in numbers */}
+                                                <span style={{ display: 100 <= parseInt(precent) || challenge.finished ? "none" : "" }}>
+                                                    ({sum} / {current_challenge.exercize_count})
+                                                </span>
+                                            </div>
+
+                                            {/* dismiss */}
+                                            <div style={{ paddingLeft: "10px" }}>
                                                 <i
-                                                className="fas fa-times"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => this.handleDismiss(current_challenge, challenge.id)}
-                                            ></i>
+                                                    className="fas fa-times"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => this.handleDismiss(current_challenge, challenge.id)}
+                                                ></i>
+                                            </div>
+
+                                            <div style={{ paddingLeft: "10px", display: finish_time >= current_time || 100 <= parseInt(precent) || challenge.finished ? "" : "none" }}>
+                                                <button className="btn btn-primary btn-sm" onClick={() => this.handleHide(challenge.id)}>
+                                                    Hide
+                                                </button>
+                                            </div>
                                         </span>
                                     </h4>
 

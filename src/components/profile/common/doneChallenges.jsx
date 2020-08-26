@@ -13,9 +13,9 @@ class DoneChallenges extends Component {
 
     componentDidMount = () => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.get(`http://localhost:3000/api/getChallengers?id=${this.props.id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/getChallengers?id=${this.props.id}`)
             .then(res => {
-                axios.get("http://localhost:3000/api/getChallenge")
+                axios.get(`${process.env.REACT_APP_API_URL}/getChallenge`)
                     .then(result => {
                         const done_challenges = res.data.filter(challenge => challenge.finished);
                         this.setState({

@@ -35,7 +35,7 @@ class ChangeUsername extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // update `user` DB set new username
-        axios.put("http://localhost:3000/api/newUsername", this.state.newUsername)
+        axios.put(`${process.env.REACT_APP_API_URL}/newUsername`, this.state.newUsername)
             .then(res => {
                 // check if this username already taken (if true - create error)
                 if (res.data === "This username is already taken.") {

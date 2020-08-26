@@ -15,8 +15,9 @@ class NewExercize extends Component {
     createRecord = () => {
         if (localStorage.length === 0) window.location = "/login";
 
-        const now = this.getUTC(new Date());
-        now.toUTCString();
+        let now = new Date();
+        // now = this.addMinutes(now, now.getTimezoneOffset()); work
+        console.log("now (NewExercize component):", now);
 
         let values = {
             exersizeName: this.state.exersizeName,
@@ -30,15 +31,13 @@ class NewExercize extends Component {
         else this.setState({ error: null });
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
-        axios.post('http://localhost:3000/api/newRecord', values)
+        axios.post(`${process.env.REACT_APP_API_URL}/newRecord`, values)
             .then(res => {
                 this.setState({ count: "" });
                 this.props.createRecord({ ...values, id: res.data.insertId, user_id: parseInt(localStorage.id) })
             })
             .catch(err => this.setState({ err }));
     }
-
-    getUTC = date => new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 
     getExersizeName = exersizeName => this.setState({ exersizeName });
 
@@ -53,11 +52,8 @@ class NewExercize extends Component {
 
     addMinutes = (date, minutes) => new Date(date.getTime() + minutes * 60000);
 
-    render() {
-        if (this.state.err) return <Error message={this.state.err.toString()} />
-
-        const smallScreen = this.props.smallScreen;
-        const styles = {
+    getStyles = smallScreen => {
+        return {
             alert: {
                 display: this.state.error ? "" : "none"
             },
@@ -84,6 +80,13 @@ class NewExercize extends Component {
                 paddingLeft: "10px"
             }
         }
+    }
+
+    render() {
+        if (this.state.err) return <Error message={this.state.err.toString()} />
+
+        const smallScreen = this.props.smallScreen;
+        const styles = this.getStyles(smallScreen);
 
         return (
             <div>

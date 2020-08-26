@@ -48,12 +48,12 @@ class Profile extends Component {
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
 		// get profile data
-		await axios.get('http://localhost:3000/api/myProfile')
+		await axios.get(`${process.env.REACT_APP_API_URL}/myProfile`)
 			.then(res => user = res.data)
 			.catch(error => this.setState({ error }));
 
 		// get followers
-		await axios.get('http://localhost:3000/api/followers')
+		await axios.get(`${process.env.REACT_APP_API_URL}/followers`)
 			.then(res => followings = res.data)
 			.catch(error => this.setState({ error }));
 
@@ -191,7 +191,8 @@ class Profile extends Component {
 				main: {
 					width: smallScreen ? "100%" : "75%",
 					paddingLeft: smallScreen ? "0px" : "40px",
-					paddingTop: smallScreen ? "15px" : "0px"
+					paddingTop: smallScreen ? "15px" : "0px",
+					textAlign: smallScreen ? "center" : "left"
 				},
 				instagram: {
 					cursor: "pointer",
@@ -227,7 +228,7 @@ class Profile extends Component {
 		const smallScreen = this.state.screenWidth < 750;
 
 		if (!this.state.dataRecived) return <Loading />
-		else if (this.state.edit) return <EditProfile smallScreen={smallScreen} currentData={this.state.user} close={this.closeEditWindow} />
+		else if (this.state.edit) return <EditProfile smallScreen={smallScreen} screenWidth={this.state.screenWidth} currentData={this.state.user} close={this.closeEditWindow} />
 		else if (this.state.settings) return <Settings userData={this.state.user} smallScreen={smallScreen} close={this.closeSettingsWindow} />
 		else if (this.state.error) return <Error message={this.state.error.toString()} />
 

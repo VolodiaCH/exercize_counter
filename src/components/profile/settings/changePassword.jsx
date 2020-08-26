@@ -41,7 +41,7 @@ class ChangePassword extends Component {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 
         // update `user` DB set new password for authorized user
-        axios.put("http://localhost:3000/api/newPassword", this.state.password)
+        axios.put(`${process.env.REACT_APP_API_URL}/newPassword`, this.state.password)
             .then(res => window.location.reload())
             .catch(error => this.setState({ error }));
     }

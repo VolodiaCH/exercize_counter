@@ -2,8 +2,8 @@ import React from 'react';
 import { Component } from 'react';
 import { Route, Redirect, Switch } from "react-router-dom";
 import NavBar from "./components/navBar";
-import RegisterForm from "./components/register_login/registerFrom";
-import LoginForm from "./components/register_login/loginForm";
+import RegisterForm from "./components/authorize/registerFrom";
+import LoginForm from "./components/authorize/loginForm";
 import Home from "./components/home/home";
 import Profile from "./components/profile/profile";
 import Users from "./components/users/users";
@@ -14,6 +14,7 @@ import './App.css';
 
 class App extends Component {
   render() {
+    console.log("timezone offset", new Date().getTimezoneOffset());
     return (
       <React.Fragment>
         <NavBar />

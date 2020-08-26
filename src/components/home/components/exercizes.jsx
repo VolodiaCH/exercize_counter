@@ -20,13 +20,13 @@ class Exercizes extends Component {
             this.props.list
                 ? this.props.list.map(elem => {
                     let date = new Date(elem.exersize_time);
-                    date = this.addMinutes(date, date.getTimezoneOffset() * -1);
+                    // date = this.addMinutes(date, new Date().getTimezoneOffset() * -2); work
+                    date = this.addMinutes(date, new Date().getTimezoneOffset() * -1);
 
-                    const d = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+                    const d = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
 
-                    let hours = date.getHours();
+                    let hours = date.getHours().toString();
                     let minutes = date.getMinutes().toString();
-                    hours = hours.toString();
 
                     if (hours.length === 1) hours = "0" + hours;
                     if (minutes.length === 1) minutes = "0" + minutes;
@@ -45,7 +45,7 @@ class Exercizes extends Component {
                                 </div >
 
                                 <div className="icons">
-                                    <div className="edit-icon">
+                                    <div style={{ display: this.props.showDate ? "none" : "" }} className="edit-icon">
                                         <i className="far fa-edit" onClick={() => this.props.editRecord(elem.exersize_id)}></i>
                                     </div>
                                     <div className="delete-icon">
