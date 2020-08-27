@@ -69,7 +69,7 @@ class UserProfile extends Component {
                         const followers = this.getFollowersStats(result.data, id);
 
                         // get all records for user
-                        axios.get(`${process.env.REACT_APP_API_URL}/getRecords?id=${user.id}`)
+                        axios.get(`${process.env.REACT_APP_API_URL}/records?id=${user.id}`)
                             .then(r => {
                                 // update state with all recived data
                                 this.setState({
