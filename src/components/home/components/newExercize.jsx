@@ -17,7 +17,7 @@ class NewExercize extends Component {
 
         let now = new Date();
         // now = this.addMinutes(now, now.getTimezoneOffset()); work
-        console.log("now (NewExercize component):", now);
+        // console.log("now (NewExercize component):", now);
 
         let values = {
             exersizeName: this.state.exersizeName,

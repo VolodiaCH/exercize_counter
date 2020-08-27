@@ -60,11 +60,11 @@ class NavBar extends Component {
 		const menuStyle = this.state.authorised ? "" : "none";
 
 		const signOutStyle = this.state.authorised ? "" : "none";
-		const signInStyle = this.state.screenWidth < 450 ? "" : this.state.authorised ? "none" : "";
+		const signInStyle = this.state.authorised ? "none" : "";
 
 		const defaultProps = {
 			color: 'secondary',
-			children: <i style={{ fontSize: "20px" }} className="fas fa-bell"></i>,
+			children: <i style={{ fontSize: "20px" }} className="fas fa-bell"></i>
 		}
 
 		// useen nofications count

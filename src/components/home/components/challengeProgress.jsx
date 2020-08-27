@@ -74,35 +74,49 @@ class ChallengeProgress extends Component {
     dismiss = id => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
         axios.delete(`${process.env.REACT_APP_API_URL}/dismiss-challenge?id=${id}`)
-            .then(elem => window.location.reload())
+            .then(res => window.location.reload())
     }
 
     handleHide = id => {
-        console.log("challenge hided");
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
         axios.put(`${process.env.REACT_APP_API_URL}/hide-challenge?id=${id}`)
             .then(res => {
-                window.location.reload();
                 let { my_challenges } = this.state;
                 my_challenges.filter(challenge => challenge.id === id);
 
-                this.setState({ my_challenges });
-            }).catch(err => console.error(err));
+                // create success snackbar
+                const snackbar = {
+                    message: "Challenge hided.",
+                    status: "success"
+                }
+
+                this.setState({ my_challenges, snackbar });
+                window.location.reload();
+            }).catch(err => this.setState({ err }));
     }
 
     handle_finish = (challenge_id, id) => {
-        console.log("challenge finished");
         const challenge_req = this.state.challenges.filter(elem => elem.challenge_id === challenge_id)[0];
 
         axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
         axios.put(`${process.env.REACT_APP_API_URL}/finish-challenge?id=${id}`)
             .then(res => {
+                let { my_challenges } = this.state;
+                my_challenges.map(challenge => {
+                    if (challenge.id === challenge_id) {
+                        challenge.finished = true;
+                    }
+
+                    return challenge
+                })
+
                 // create success snackbar
                 const snackbar = {
                     message: "Challenge successfuly finished!",
                     status: "success"
                 }
-                this.setState({ snackbar });
+                this.setState({ snackbar, my_challenges });
+                window.location.reload();
             })
             .catch(error => this.setState({ error }));
 
@@ -159,7 +173,7 @@ class ChallengeProgress extends Component {
                         const exercizes = this.state.exercizes_list.filter(el => {
                             const currentExercizeTime = new Date(el.exersize_time);
                             // console.log(currentExercizeTime, start_time, finish_time);
-                            return currentExercizeTime >= start_time && currentExercizeTime <= finish_time && el.exersize_name === current_challenge.exercize_name
+                            return currentExercizeTime >= start_time && currentExercizeTime <= finish_time && el.exersize_name.toLowerCase() === current_challenge.exercize_name.toLowerCase()
                         });
 
                         // get sum of filtered exercizes 
@@ -170,7 +184,7 @@ class ChallengeProgress extends Component {
                         const precent = this.getPercent(sum, current_challenge.exercize_count).toString() + "%";
 
                         // if precentes >= 100% handle finish challenge
-                        if (parseInt(precent) >= 100 && !challenge.finished) this.handle_finish(challenge.challenge_id, challenge.id);
+                        if (parseInt(precent) >= 100 && challenge.finished === 0) this.handle_finish(challenge.challenge_id, challenge.id);
 
                         return (
                             <div key={idx}>
