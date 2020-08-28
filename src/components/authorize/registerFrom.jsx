@@ -153,7 +153,7 @@ class RegisterForm extends Component {
 		return (
 			<div className="row" style={mainDivStyle}>
 				<div className="col">
-					<h1>Register</h1>
+					<h1 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Register</h1>
 
 					<form onSubmit={this.handleSubmit} style={{ float: "center" }}>
 						{/* USERNAME */}
