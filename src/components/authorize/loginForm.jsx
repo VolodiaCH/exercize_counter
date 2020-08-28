@@ -112,7 +112,7 @@ class LoginForm extends Component {
 
 		return (
 			<div style={mainDivStyle}>
-				<h1>Login</h1>
+				<h1 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Login</h1>
 
 				<form onSubmit={this.handleSubmit} style={{ float: "center" }}>
 					{/* USERNAME */}
