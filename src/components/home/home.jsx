@@ -55,7 +55,7 @@ class Home extends Component {
 
     componentDidMount = async () => {
         // redirect to /login if unauthorized
-        if (localStorage.length === 0) window.location = "/login";
+        if (localStorage.length === 1) window.location = "/login";
 
         // resize listener
         this.updateWindowDimensions();

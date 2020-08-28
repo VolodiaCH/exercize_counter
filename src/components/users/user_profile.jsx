@@ -40,7 +40,7 @@ class UserProfile extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.length === 0) window.location = "/login"; // if unauthorized redirect to /login
+        if (localStorage.length === 1) window.location = "/login"; // if unauthorized redirect to /login
         else if (this.state.username === localStorage.username) window.location = "/profile" // if user username === current authorised user username redirect to /profile
 
         // resize listener

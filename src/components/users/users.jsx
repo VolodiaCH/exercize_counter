@@ -24,7 +24,7 @@ class Users extends Component {
 	}
 
 	componentDidMount() {
-		if (localStorage.length === 0) window.location = "/login";
+		if (localStorage.length === 1) window.location = "/login";
 
 		this.getListOfUsers();
 		this.getFollowersList();
@@ -57,7 +57,7 @@ class Users extends Component {
 	}
 
 	handleFollow = id => {
-		if (localStorage.length === 0) window.location = "/login"
+		if (localStorage.length === 1) window.location = "/login"
 
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 		axios.post(`${process.env.REACT_APP_API_URL}/follow?${id}`)
@@ -83,7 +83,7 @@ class Users extends Component {
 	}
 
 	handleUnFollow = id => {
-		if (localStorage.length === 0) window.location = "/login"
+		if (localStorage.length === 1) window.location = "/login"
 
 		axios.defaults.headers.common['Authorization'] = `${localStorage.token}`;
 		axios.delete(`${process.env.REACT_APP_API_URL}/unfollow?${id}`)

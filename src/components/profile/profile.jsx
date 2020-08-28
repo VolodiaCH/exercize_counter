@@ -35,7 +35,7 @@ class Profile extends Component {
 
 	async componentDidMount() {
 		// redirect to login if unauthorised
-		if (localStorage.length === 0) window.location = "/login";
+		if (localStorage.length === 1) window.location = "/login";
 
 		// window resize listener
 		this.updateWindowDimensions();

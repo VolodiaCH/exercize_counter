@@ -13,7 +13,7 @@ class NewExercize extends Component {
     }
 
     createRecord = () => {
-        if (localStorage.length === 0) window.location = "/login";
+        if (localStorage.length === 1) window.location = "/login";
 
         let now = new Date();
         // now = this.addMinutes(now, now.getTimezoneOffset()); work

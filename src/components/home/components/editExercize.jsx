@@ -13,7 +13,7 @@ class EditExercize extends Component {
     }
 
     editRecord = () => {
-        if (localStorage.length === 0) window.location = "/login";
+        if (localStorage.length === 1) window.location = "/login";
 
         const now = new Date();
         let values = {

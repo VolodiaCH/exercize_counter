@@ -47,7 +47,9 @@ class NavBar extends Component {
 	showHideDropDown = () => this.setState({ showDropDown: !this.state.showDropDown });
 
 	logOut = () => {
+		const theme = localStorage.theme;
 		localStorage.clear();
+		localStorage.theme = theme
 		this.setState({ authorised: false });
 		window.location = "/login";
 	}

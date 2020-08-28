@@ -162,7 +162,7 @@ class RegisterForm extends Component {
 								<span className="input-group-text" id="basic-addon1">@</span>
 							</div>
 							<input
-								style={{ borderRadius: "3px" }}
+								// style={{ borderRadius: "3px", backgroundColor: this.props.theme === "dark" ? "#313131" : "" }}
 								type="text"
 								className={errors.username.length === 0 ? inputClass : inputErrorClass}
 								placeholder="Username"
@@ -179,7 +179,7 @@ class RegisterForm extends Component {
 						{/* NAME */}
 						<div className="input-group mb-3">
 							<input
-								style={{ borderRadius: "3px" }}
+								// style={{ borderRadius: "3px", backgroundColor: this.props.theme === "dark" ? "#313131" : "" }}
 								type="text"
 								className={errors.name.length === 0 ? inputClass : inputErrorClass}
 								placeholder="Name"
@@ -197,7 +197,7 @@ class RegisterForm extends Component {
 						{/* PASSWORD */}
 						<div className="input-group mb-3">
 							<input
-								style={{ borderRadius: "3px" }}
+								// style={{ borderRadius: "3px", backgroundColor: this.props.theme === "dark" ? "#313131" : "" }}
 								type="password"
 								className={errors.password.length === 0 ? inputClass : inputErrorClass}
 								placeholder="Password"
@@ -214,7 +214,7 @@ class RegisterForm extends Component {
 						{/* CONFIRM PASSWORD */}
 						<div className="input-group mb-3">
 							<input
-								style={{ borderRadius: "3px" }}
+								// style={{ borderRadius: "3px", backgroundColor: this.props.theme === "dark" ? "#313131" : "" }}
 								type="password"
 								className={errors.confirmPassword.length === 0 ? inputClass : inputErrorClass}
 								placeholder="Confirm Password"

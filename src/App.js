@@ -14,12 +14,24 @@ import './App.css';
 
 class App extends Component {
   state = {
-    theme: "dark"
+    theme: localStorage.theme ? localStorage.theme : "light"
+  }
+
+  componentDidMount() {
+    if (!localStorage.theme) {
+      this.setState({ theme: "light" });
+      localStorage.theme = "light";
+    }
   }
 
   changeTheme = () => {
-    if (this.state.theme === "dark") this.setState({ theme: "light" });
-    else if (this.state.theme === "light") this.setState({ theme: "dark" });
+    if (this.state.theme === "dark") {
+      this.setState({ theme: "light" });
+      localStorage.theme = "light";
+    } else if (this.state.theme === "light") {
+      this.setState({ theme: "dark" });
+      localStorage.theme = "dark";
+    }
   }
 
   render() {
