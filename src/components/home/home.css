@@ -9,10 +9,6 @@
         padding-left: 25px; 
     }
 
-    /* .inputs {
-        display: flex;
-    } */
-
     .done-exersizes-block  {
         display: flex; 
         justify-content: space-between;
@@ -21,8 +17,14 @@
     .done-exersizes-name {
         font-size: 25px;
         padding-left: 20px;
-        /* padding-left: 20px; */
         padding-top: 10px;
+    }
+
+    .done-exersizes-name-dark-theme {
+        font-size: 25px;
+        padding-left: 20px;
+        padding-top: 10px;
+        color: white;
     }
     
     .done-exersizes-time {
@@ -33,10 +35,16 @@
     }
     
     .done-exersizes-times {
-        /* padding-left: 15px; */
         padding-left: 20px;
         padding-top: 10px;
         font-size: 20px;
+    }
+
+    .done-exersizes-times-dark-theme {
+        padding-left: 20px;
+        padding-top: 10px;
+        font-size: 20px;
+        color: white;
     }
 
     .icons {
@@ -53,9 +61,6 @@
         padding-left: 10px;
         cursor: pointer;
     }
-
-    
-
 
 .without_ampm::-webkit-datetime-edit-ampm-field {
     display: none;

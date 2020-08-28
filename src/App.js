@@ -13,21 +13,32 @@ import Nofications from "./components/nofications/nofications";
 import './App.css';
 
 class App extends Component {
+  state = {
+    theme: "dark"
+  }
+
+  changeTheme = () => {
+    if (this.state.theme === "dark") this.setState({ theme: "light" });
+    else if (this.state.theme === "light") this.setState({ theme: "dark" });
+  }
+
   render() {
-    console.log("timezone offset", new Date().getTimezoneOffset());
+    document.body.style.backgroundColor = this.state.theme === "dark" ? "#181A1B" : "white";
+
     return (
       <React.Fragment>
-        <NavBar />
+        <NavBar changeTheme={this.changeTheme} theme={this.state.theme} />
+
         <main className="container">
           <Switch>
-            <Route path="/register" component={RegisterForm} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/home" component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/userprofile" component={UserProfile} />
-            <Route path="/users" component={Users} />
-            <Route path="/nofications" component={Nofications} />
-            <Route path="/not-found" component={NotFound} />
+            <Route path="/register" render={props => <RegisterForm {...props} theme={this.state.theme} />} />
+            <Route path="/login" render={props => <LoginForm {...props} theme={this.state.theme} />} />
+            <Route path="/home" render={props => <Home {...props} theme={this.state.theme} />} />
+            <Route path="/profile" render={props => <Profile {...props} theme={this.state.theme} />} />
+            <Route path="/userprofile" render={props => <UserProfile {...props} theme={this.state.theme} />} />
+            <Route path="/users" render={props => <Users {...props} theme={this.state.theme} />} />
+            <Route path="/nofications" render={props => <Nofications {...props} theme={this.state.theme} />} />
+            <Route path="/not-found" render={props => <NotFound {...props} theme={this.state.theme} />} />
             <Redirect from="/" exact to="/home" />
             <Redirect to="/not-found" />
           </Switch>

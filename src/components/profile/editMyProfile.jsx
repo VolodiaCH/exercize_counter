@@ -212,7 +212,8 @@ class EditProfile extends Component {
                         // maxWidth: "300px",
                         width: smallScreen ? "100%" : "300px",
                         paddingTop: "20px",
-                        maxHeight: "500px"
+                        maxHeight: "500px",
+                        textAlign: "center"
                     },
                 },
                 buttons: {
@@ -256,7 +257,7 @@ class EditProfile extends Component {
                 <div style={styles.firstContainer.main}>
                     {/* username */}
                     <div style={styles.firstContainer.username}>
-                        <h2>
+                        <h2 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
                             @{this.state.userData.username}
                         </h2>
                     </div>
@@ -309,7 +310,7 @@ class EditProfile extends Component {
                 < div style={styles.secondContainer.main}>
                     {/* Name */}
                     <div style={styles.secondContainer.name.container}>
-                        <h5>Name:</h5>
+                        <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Name:</h5>
 
                         <input
                             placeholder="Name"
@@ -328,7 +329,7 @@ class EditProfile extends Component {
 
                     {/* instagram */}
                     <div style={styles.secondContainer.instagram.container}>
-                        <h5>Instagram:</h5>
+                        <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Instagram:</h5>
 
                         <div className="input-group">
                             <div className="input-group-prepend">
@@ -354,7 +355,7 @@ class EditProfile extends Component {
 
                     {/* About me */}
                     <div style={styles.secondContainer.aboutMe.container}>
-                        <h4>About me:</h4>
+                        <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>About me:</h4>
                         <textarea
                             className={this.state.errors.aboutMe ? "form-control is-invalid" : "form-control"}
                             placeholder="About me (0 / 60)"
@@ -365,7 +366,7 @@ class EditProfile extends Component {
                             onChange={this.handleAboutMeChange}
                         ></textarea>
 
-                        <small className="form-text text-muted"> ({this.state.aboutMe.length} / 125) </small>
+                        <small className="form-text text-muted" style={{ color: this.props.theme === "dark" ? "white" : "" }}> ({this.state.aboutMe.length} / 125) </small>
                     </div>
 
                     {/* buttons when small screen */}

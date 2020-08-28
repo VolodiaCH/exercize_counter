@@ -204,7 +204,8 @@ class Profile extends Component {
 						display: !this.state.aboutMe || this.state.aboutMe.length === 0 ? "none" : ""
 					},
 					text: {
-						whiteSpace: "pre-line"
+						whiteSpace: "pre-line",
+						color: this.props.theme === "dark" ? "white" : ""
 					}
 				},
 				stats: {
@@ -228,8 +229,8 @@ class Profile extends Component {
 		const smallScreen = this.state.screenWidth < 750;
 
 		if (!this.state.dataRecived) return <Loading />
-		else if (this.state.edit) return <EditProfile smallScreen={smallScreen} screenWidth={this.state.screenWidth} currentData={this.state.user} close={this.closeEditWindow} />
-		else if (this.state.settings) return <Settings userData={this.state.user} smallScreen={smallScreen} close={this.closeSettingsWindow} />
+		else if (this.state.edit) return <EditProfile smallScreen={smallScreen} screenWidth={this.state.screenWidth} currentData={this.state.user} close={this.closeEditWindow} theme={this.props.theme} />
+		else if (this.state.settings) return <Settings userData={this.state.user} smallScreen={smallScreen} close={this.closeSettingsWindow} theme={this.props.theme} />
 		else if (this.state.error) return <Error message={this.state.error.toString()} />
 
 		const styles = this.getStyles(smallScreen);
@@ -248,7 +249,7 @@ class Profile extends Component {
 					<div style={styles.firstContainer.main}>
 						{/* username */}
 						<div style={styles.firstContainer.username}>
-							<h2>
+							<h2 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
 								{this.state.username}
 							</h2>
 						</div>
@@ -265,16 +266,16 @@ class Profile extends Component {
 						{/* followers */}
 						<div style={styles.firstContainer.followers.container}>
 							<div style={styles.firstContainer.followers.followers} onClick={() => this.handleClickOpen("followers")}>
-								<h5>{this.state.followers}</h5>
-								<h6>Followers</h6>
+								<h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.followers}</h5>
+								<h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Followers</h6>
 							</div>
 							<div style={styles.firstContainer.followers.friends} onClick={() => this.handleClickOpen("friends")}>
-								<h5>{this.state.friends}</h5>
-								<h6>Friends</h6>
+								<h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.friends}</h5>
+								<h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Friends</h6>
 							</div>
 							<div style={styles.firstContainer.followers.followings} onClick={() => this.handleClickOpen("followings")}>
-								<h5>{this.state.following}</h5>
-								<h6>Followings</h6>
+								<h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.following}</h5>
+								<h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Followings</h6>
 							</div>
 						</div>
 
@@ -292,7 +293,7 @@ class Profile extends Component {
 					<div style={styles.secondContainer.main}>
 						{/* Name */}
 						<div>
-							<h1>
+							<h1 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
 								{this.state.name} <i
 									style={styles.secondContainer.instagram}
 									onClick={this.redirectToInst}
@@ -303,22 +304,22 @@ class Profile extends Component {
 
 						{/* About Me */}
 						<div style={styles.secondContainer.aboutMe.container}>
-							<h4>About me:</h4>
+							<h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>About me:</h4>
 							<span style={styles.secondContainer.aboutMe.text}> {this.state.aboutMe} </span>
 						</div>
 
 						{/* STATS */}
 						<div style={styles.secondContainer.stats.container}>
 							<div>
-								<h4>Stats <span style={styles.secondContainer.stats.date}>(SINCE {this.state.registerDate})</span></h4>
+								<h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Stats <span style={styles.secondContainer.stats.date}>(SINCE {this.state.registerDate})</span></h4>
 							</div>
 
 							<div>
-								<StatsList id={localStorage.id} />
+								<StatsList theme={this.props.theme} id={localStorage.id} smallScreen={smallScreen} />
 							</div>
 
 							<div>
-								<DoneChallenges id={localStorage.id} />
+								<DoneChallenges theme={this.props.theme} id={localStorage.id} smallScreen={smallScreen} />
 							</div>
 						</div>
 					</div>

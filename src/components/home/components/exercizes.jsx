@@ -6,8 +6,9 @@ class Exercizes extends Component {
     render() {
         const { smallScreen } = this.props;
         let timeClass = "done-exersizes-time";
-        let nameClass = "done-exersizes-name";
-        let timesClass = "done-exersizes-times";
+        let nameClass = this.props.theme === "dark" ? "done-exersizes-name-dark-theme" : "done-exersizes-name";
+        let timesClass = this.props.theme === "dark" ? "done-exersizes-times-dark-theme" : "done-exersizes-times";
+
         const row = " row";
 
         if (smallScreen) {
@@ -15,6 +16,8 @@ class Exercizes extends Component {
             nameClass += row;
             timesClass += row;
         }
+
+        const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
 
         return (
             this.props.list
@@ -35,25 +38,25 @@ class Exercizes extends Component {
 
                     return (
                         <div key={elem.exersize_id}>
-                            <hr />
+                            <hr style={this.props.theme === "dark" ? whiteHr : {}} />
                             <div className="done-exersizes-block">
 
                                 <div>
                                     <span className={timeClass}> {time} </span>
                                     <span className={nameClass}> {elem.exersize_name} </span>
                                     <span className={timesClass}> {elem.exersize_count} раз</span>
-                                </div >
+                                </div>
 
                                 <div className="icons">
                                     <div style={{ display: this.props.showDate ? "none" : "" }} className="edit-icon">
-                                        <i className="far fa-edit" onClick={() => this.props.editRecord(elem.exersize_id)}></i>
+                                        <i style={{ color: this.props.theme === "dark" ? "gray" : "black" }} className="far fa-edit" onClick={() => this.props.editRecord(elem.exersize_id)}></i>
                                     </div>
                                     <div className="delete-icon">
-                                        <i className="far fa-trash-alt" onClick={() => this.props.deleteRecord(elem.exersize_id)}></i>
+                                        <i style={{ color: this.props.theme === "dark" ? "gray" : "black" }} className="far fa-trash-alt" onClick={() => this.props.deleteRecord(elem.exersize_id)}></i>
                                     </div>
                                 </div>
-                            </div >
-                        </div >
+                            </div>
+                        </div>
                     );
                 })
                 : <LoadingComponent />

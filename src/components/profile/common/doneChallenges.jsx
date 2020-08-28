@@ -32,23 +32,16 @@ class DoneChallenges extends Component {
     changeIndex = event => this.setState({ currentIndex: event.target.value });
 
     render() {
-        if (!this.state.rendered) {
-            return (
-                <div>
-                    {/* <hr />
-                    <LoadingComponent /> */}
-                </div>
-            )
-        } else if (this.state.my_challenges.length === 0) return <div></div>
+        if (!this.state.my_challenges) return <div></div>
+        else if (this.state.my_challenges.length === 0) return <div></div>
 
         const current_challenge = this.state.challenges.filter(challenge => challenge.challenge_id === this.state.my_challenges[this.state.currentIndex].challenge_id)[0];
 
         return (
             <div>
-                {/* <hr /> */}
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>
-                        <h4>"{current_challenge.challenge_name}"</h4>
+                <div>
+                    <div style={{ textAlign: this.props.smallScreen ? "center" : "" }}>
+                        <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>"{current_challenge.challenge_name}"</h4>
                         <span
                             className="text-muted"
                             style={{ cursor: "pointer" }}
@@ -57,15 +50,6 @@ class DoneChallenges extends Component {
                             <span style={{ display: localStorage.username === current_challenge.creator_username ? "" : "none" }}> (me)</span>
                         </span>
                     </div>
-
-                    {/* <div style={{ float: "right" }}>
-                        <div>
-                            <button type="button" className="btn btn-primary btn-sm">Start challenge</button>
-                        </div>
-                        <div style={{ paddingTop: "5px", float: "right" }}>
-                            <button type="button" className="btn btn-primary btn-sm">See challenge</button>
-                        </div>
-                    </div> */}
                 </div>
                 <div style={{ paddingTop: "5px" }}>
                     <input

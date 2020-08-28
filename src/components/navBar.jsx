@@ -103,6 +103,7 @@ class NavBar extends Component {
 								Login
           					</NavLink>
 						</li>
+
 						{/* register */}
 						<li className="nav-item">
 							<NavLink className="nav-link" to="/register" style={{ display: signInStyle }}>
@@ -132,6 +133,29 @@ class NavBar extends Component {
 							<NavLink className="nav-link" to="/nofications">
 								<Badge badgeContent={nofications} variant="dot" {...defaultProps} />
 							</NavLink>
+						</li>
+
+						<li className="nav-item">
+							<div className="nav-link">
+								<i
+									style={{
+										fontSize: "22px",
+										display: this.props.theme === "dark" ? "" : "none"
+									}}
+
+									className="fas fa-sun"
+									onClick={this.props.changeTheme}
+								></i>
+								<i
+									style={{
+										fontSize: "22px",
+										display: this.props.theme === "dark" ? "none" : ""
+									}}
+
+									className="far fa-sun"
+									onClick={this.props.changeTheme}
+								></i>
+							</div>
 						</li>
 
 						{/* avatar */}

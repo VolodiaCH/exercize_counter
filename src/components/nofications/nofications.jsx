@@ -156,7 +156,12 @@ class Nofications extends Component {
                     },
                     username: {
                         cursor: "pointer",
-                        color: "#FF6666"
+                        color: "#FF6666",
+                        fontSize: "20px"
+                    },
+                    text: {
+                        fontSize: "20px",
+                        color: this.props.theme === "dark" ? "white" : ""
                     }
                 },
                 buttons: {
@@ -194,11 +199,14 @@ class Nofications extends Component {
         // nofications list to render
         const page = this.renderPage(this.state.nofications);
 
+        const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
+        const hrStyle = this.props.theme === "dark" ? whiteHr : {};
+
         return (
             <div style={styles.mainConainer}>
                 <div style={styles.heading.container}>
                     <div>
-                        <h2 onClick={this.getNofications} style={{ cursor: "pointer" }}>
+                        <h2 onClick={this.getNofications} style={{ cursor: "pointer", color: this.props.theme === "dark" ? "gray" : "" }}>
                             Notifications <span style={styles.unseenNofications}>({unseenNofications})</span>
                         </h2>
                     </div>
@@ -217,14 +225,14 @@ class Nofications extends Component {
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr style={hrStyle} />
                 <div>
                     {
                         this.state.nofications.length === 0
                             ? <div>
                                 <h4 style={styles.noNoficationsLabel}>
                                     You have not any notifications.
-                            </h4>
+                                </h4>
                             </div>
                             : page.map(nofication => {
                                 // styles
@@ -259,19 +267,17 @@ class Nofications extends Component {
                                         <div style={styles.nofication.container}>
                                             <div style={styles.nofication.message.container}>
                                                 <div style={s.new}>
-                                                    <h5>New!</h5>
+                                                    <span style={{ fontSize: "20px", color: this.props.theme === "dark" ? "white" : "" }}>New!</span>
                                                 </div>
 
                                                 <div style={s.message}>
-                                                    <h5>
+                                                    <div>
                                                         <span
                                                             style={styles.nofication.message.username}
-                                                            onClick={() => window.location = "/userprofile?username=" + username}
-                                                        >
-                                                            {username}
-                                                        </span>
-                                                        <span> {message}</span>
-                                                    </h5>
+                                                            onClick={() => window.location = "/userprofile?username=" + username.substring(1)}
+                                                        > {username} </span>
+                                                        <span style={styles.nofication.message.text}> {message}</span>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -290,7 +296,7 @@ class Nofications extends Component {
                                                 }
 
                                                 <div style={styles.nofication.buttons.delete.container}>
-                                                    <h5>
+                                                    <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
                                                         <i className="fas fa-trash-alt"
                                                             style={styles.nofication.buttons.delete.button}
 
@@ -301,7 +307,7 @@ class Nofications extends Component {
                                             </div>
                                         </div>
 
-                                        <hr />
+                                        <hr style={hrStyle} />
                                     </div>
                                 )
                             })

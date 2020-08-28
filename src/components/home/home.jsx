@@ -173,11 +173,11 @@ class Home extends Component {
         const smallScreen = screenWidth < 450;
 
         // return choosed option
-        if (this.state.edit) return <EditExercize exercize={this.state.edit} list={exersizesList} smallScreen={smallScreen} />
-        else if (this.state.option === "New exercize") return <NewExercizes smallScreen={smallScreen} list={this.state.fullList} createRecord={this.createRecord} />
-        else if (this.state.option === "New challenge") return <NewChallenge smallScreen={screenWidth < 800} list={exersizesList} />
-        else if (this.state.option === "Show challenge progress") return <ChallengeProgress smallScreen={smallScreen} list={this.state.fullList} />
-        else if (this.state.option === "Show stats for today") return <TodaysStats smallScreen={smallScreen} list={this.state.fullList} />
+        if (this.state.edit) return <EditExercize exercize={this.state.edit} list={exersizesList} smallScreen={smallScreen} theme={this.props.theme} />
+        else if (this.state.option === "New exercize") return <NewExercizes smallScreen={smallScreen} list={this.state.fullList} createRecord={this.createRecord} theme={this.props.theme} />
+        else if (this.state.option === "New challenge") return <NewChallenge smallScreen={screenWidth < 800} list={exersizesList} theme={this.props.theme} />
+        else if (this.state.option === "Show challenge progress") return <ChallengeProgress smallScreen={smallScreen} list={this.state.fullList} theme={this.props.theme} />
+        else if (this.state.option === "Show stats for today") return <TodaysStats smallScreen={smallScreen} list={this.state.fullList} theme={this.props.theme} />
         else return null
     }
 
@@ -222,11 +222,13 @@ class Home extends Component {
 
         if (this.state.error) return <Error message={this.state.error.toString()} /> // handle error
         else if (!this.state.exersizesList) return <Loading /> // if data !recived show loading spiner
-        else if (this.state.option === "Accept challenge") return <AcceptChallenge smallScreen={smallScreen} handleAcceptChallenge={this.handleAcceptChallenge} /> // display accept challenge page if it need
+        else if (this.state.option === "Accept challenge") return <AcceptChallenge smallScreen={smallScreen} handleAcceptChallenge={this.handleAcceptChallenge} theme={this.props.theme} /> // display accept challenge page if it need
 
         // display full list if it need
         if (this.state.option === "Show exercizes list for all time") this.showFullList(true);
         else this.showFullList(false);
+
+        const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
 
         return (
             <div style={{ paddingTop: "25px" }}>
@@ -254,7 +256,7 @@ class Home extends Component {
 
                 {/* render choosed option */}
                 <div style={{ display: this.renderOption() ? "" : "none" }}>
-                    <hr />
+                    <hr style={this.props.theme === "dark" ? whiteHr : {}} />
                     {this.renderOption()}
                 </div>
 
@@ -268,15 +270,17 @@ class Home extends Component {
                                 editRecord={this.editRecord}
                                 smallScreen={smallScreen}
                                 showDate={this.state.showFullList}
+
+                                theme={this.props.theme}
                             />
                             : <div>
-                                <hr />
-                                <h4 style={{ color: "gray" }}> You have not done any exercizes today. </h4>
+                                <hr style={this.props.theme === "dark" ? whiteHr : ""} />
+                                <h4 style={{ color: "gray" }}> You haven't done any exercizes today. </h4>
                             </div>
                     }
                 </div>
 
-                <hr />
+                <hr style={this.props.theme === "dark" ? whiteHr : {}} />
 
                 {/* paginate */}
                 <div style={{ paddingTop: "25px" }}>

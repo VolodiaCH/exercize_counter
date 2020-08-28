@@ -174,6 +174,9 @@ class Users extends Component {
 		// users list to render
 		const page = this.renderPage(sortedUsers);
 
+		const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
+		const hrStyle = this.props.theme === "dark" ? whiteHr : {};
+
 		return (
 			<div style={{ paddingTop: "40px" }}>
 				<div>
@@ -209,11 +212,11 @@ class Users extends Component {
 
 						return (
 							<div key={user.id}>
-								<hr />
+								<hr style={hrStyle} />
 								<div style={{ fontSize: "20px", display: "flex", justifyContent: "space-between" }}>
 									<div onClick={() => window.location = "/userprofile?username=" + user.username} style={{ display: "flex" }}>
 										{avatar}
-										<span style={{ cursor: "pointer", paddingLeft: "10px" }}>
+										<span style={{ cursor: "pointer", paddingLeft: "10px", color: this.props.theme === "dark" ? "white" : "" }}>
 											{username} <span style={nameStyle}> ({user.name}) </span>
 										</span>
 									</div>
@@ -231,7 +234,7 @@ class Users extends Component {
 					})}
 				</div>
 
-				<hr />
+				<hr style={hrStyle} />
 
 				<div style={{ paddingTop: "10px" }}>
 					<Paginate

@@ -182,6 +182,7 @@ class ChallengeProgress extends Component {
 
                         // get precentes of challenge progress
                         const precent = this.getPercent(sum, current_challenge.exercize_count).toString() + "%";
+                        console.log("precent:", precent);
 
                         // if precentes >= 100% handle finish challenge
                         if (parseInt(precent) >= 100 && challenge.finished === 0) this.handle_finish(challenge.challenge_id, challenge.id);
@@ -199,11 +200,11 @@ class ChallengeProgress extends Component {
                                         <span style={{ display: "flex" }}>
                                             <div>
                                                 {/* challenge name */}
-                                                <span className={100 <= parseInt(precent) || challenge.finished ? "text-success" : ""}>"{current_challenge.challenge_name}"</span>
+                                                <span className={100 <= parseInt(precent) || challenge.finished ? "text-success" : ""} style={{ color: this.props.theme === "dark" ? "white" : "" }}>"{current_challenge.challenge_name}"</span>
                                                 &nbsp;
 
                                                 {/* challenge progress in numbers */}
-                                                <span style={{ display: 100 <= parseInt(precent) || challenge.finished ? "none" : "" }}>
+                                                <span style={{ display: 100 <= parseInt(precent) || challenge.finished ? "none" : "", color: this.props.theme === "dark" ? "white" : "black" }}>
                                                     ({sum} / {current_challenge.exercize_count})
                                                 </span>
                                             </div>
@@ -212,7 +213,7 @@ class ChallengeProgress extends Component {
                                             <div style={{ paddingLeft: "10px" }}>
                                                 <i
                                                     className="fas fa-times"
-                                                    style={{ cursor: "pointer" }}
+                                                    style={{ cursor: "pointer", color: this.props.theme === "dark" ? "gray" : "black" }}
                                                     onClick={() => this.handleDismiss(current_challenge, challenge.id)}
                                                 ></i>
                                             </div>
@@ -227,17 +228,17 @@ class ChallengeProgress extends Component {
 
                                     {/* display time left (00:00:00) */}
                                     <div style={{ float: "right" }}>
-                                        <Timer endTime={finish_time} />
+                                        <Timer theme={this.props.theme} endTime={finish_time} />
                                     </div>
                                 </div>
 
                                 {/* progress bar */}
-                                <div className="progress">
+                                <div className="progress" style={{ backgroundColor: this.props.theme === "dark" ? "gray" : "" }}>
                                     <div className="progress-bar progress-bar-striped progress-bar-animated"
                                         role="progressbar"
                                         aria-valuemin="0"
                                         aria-valuemax="100"
-                                        style={{ width: precent }}
+                                        style={{ width: challenge.finished ? "100%" : precent }}
                                     ></div>
                                 </div>
                             </div>

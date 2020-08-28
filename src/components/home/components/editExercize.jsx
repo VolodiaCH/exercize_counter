@@ -55,6 +55,9 @@ class EditExercize extends Component {
             alert: {
                 display: this.state.error ? "" : "none"
             },
+            heading: {
+                color: this.props.theme === "dark" ? "white" : "block"
+            },
             buttons: {
                 float: "right",
                 paddingLeft: "5px",
@@ -83,7 +86,7 @@ class EditExercize extends Component {
         return (
             <div>
                 <div>
-                    <h3>Edit exercize</h3>
+                    <h3 style={styles.heading}>Edit exercize</h3>
                 </div>
                 <div style={styles.form}>
                     <div style={styles.values}>

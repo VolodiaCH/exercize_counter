@@ -37,7 +37,7 @@ class ResetData extends Component {
 
         return (
             <div>
-                <h3>Reset data</h3>
+                <h3 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Reset data</h3>
 
                 {/* password input */}
                 <div>
@@ -66,7 +66,7 @@ class ResetData extends Component {
 
                         onChange={this.checkBox}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">I know that I won't be able to restore it.</label>
+                    <label style={{ color: this.props.theme === "dark" ? "white" : "" }} className="form-check-label" htmlFor="exampleCheck1">I know that I won't be able to restore it.</label>
                 </div>
 
                 {/* submit */}

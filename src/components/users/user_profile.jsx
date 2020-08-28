@@ -252,7 +252,8 @@ class UserProfile extends Component {
                         display: this.state.aboutMe === null || this.state.aboutMe.length === 0 ? "none" : ""
                     },
                     text: {
-                        whiteSpace: "pre-line"
+                        whiteSpace: "pre-line",
+                        color: this.props.theme === "dark" ? "white" : ""
                     }
                 },
                 stats: {
@@ -292,7 +293,7 @@ class UserProfile extends Component {
                     <div style={styles.firstContainer.main}>
                         {/* username */}
                         <div style={styles.firstContainer.username}>
-                            <h2>
+                            <h2 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
                                 @{this.state.username}
                             </h2>
                         </div>
@@ -309,16 +310,16 @@ class UserProfile extends Component {
                         {/* followers stats */}
                         <div style={styles.firstContainer.followers.container}>
                             <div style={styles.firstContainer.followers.followers} onClick={() => this.handleClickOpen("followers")}>
-                                <h5>{this.state.followers}</h5>
-                                <h6>Followers</h6>
+                                <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.followers}</h5>
+                                <h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Followers</h6>
                             </div>
                             <div style={styles.firstContainer.followers.friends} className="friends" onClick={() => this.handleClickOpen("friends")}>
-                                <h5>{this.state.friends}</h5>
-                                <h6>Friends</h6>
+                                <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.friends}</h5>
+                                <h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Friends</h6>
                             </div>
                             <div style={styles.firstContainer.followers.followings} onClick={() => this.handleClickOpen("followings")}>
-                                <h5>{this.state.following}</h5>
-                                <h6>Followings</h6>
+                                <h5 style={{ color: this.props.theme === "dark" ? "white" : "" }}>{this.state.following}</h5>
+                                <h6 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Followings</h6>
                             </div>
                         </div>
 
@@ -345,7 +346,7 @@ class UserProfile extends Component {
                     <div style={styles.secondContainer.main}>
                         {/* Name */}
                         <div>
-                            <h1>
+                            <h1 style={{ color: this.props.theme === "dark" ? "white" : "" }}>
                                 {this.state.name} <i // instagram
                                     style={styles.secondContainer.instagram}
                                     onClick={this.redirectToInst}
@@ -356,7 +357,7 @@ class UserProfile extends Component {
 
                         {/* About Me */}
                         <div style={styles.secondContainer.aboutMe.container}>
-                            <h4>About me:</h4>
+                            <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>About me:</h4>
                             <span style={styles.secondContainer.aboutMe.text}> {this.state.aboutMe} </span>
                         </div>
 
@@ -364,17 +365,17 @@ class UserProfile extends Component {
                         <div style={styles.secondContainer.stats.container}>
                             {/* heading */}
                             <div>
-                                <h4>Stats <span style={styles.secondContainer.stats.date}>(SINCE {this.state.registerDate})</span></h4>
+                                <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Stats <span style={styles.secondContainer.stats.date}>(SINCE {this.state.registerDate})</span></h4>
                             </div>
 
                             {/* done exercizes */}
                             <div>
-                                <StatsList id={this.state.id} />
+                                <StatsList theme={this.props.theme} id={this.state.id} smallScreen={smallScreen} />
                             </div>
 
                             {/* done challenges */}
                             <div>
-                                <DoneChallenges id={this.state.id} />
+                                <DoneChallenges theme={this.props.theme} id={this.state.id} smallScreen={smallScreen} />
                             </div>
                         </div>
                     </div>

@@ -19,10 +19,10 @@ class Settings extends Component {
         const id = this.state.user.id;
 
         // display selected setting
-        if (currentSetting === "Change username") return <ChangeUsername password={password} id={id} />
-        else if (currentSetting === "Change password") return <ChangePassword password={password} id={id} />
-        else if (currentSetting === "Reset data") return <ResetData password={password} id={id} />
-        else if (currentSetting === "Delete profile") return <DeleteProfile password={password} id={id} />
+        if (currentSetting === "Change username") return <ChangeUsername theme={this.props.theme} password={password} id={id} />
+        else if (currentSetting === "Change password") return <ChangePassword theme={this.props.theme} password={password} id={id} />
+        else if (currentSetting === "Reset data") return <ResetData theme={this.props.theme} password={password} id={id} />
+        else if (currentSetting === "Delete profile") return <DeleteProfile theme={this.props.theme} password={password} id={id} />
         else return alert("404 Error! Setting not found.");
     }
 
@@ -32,7 +32,7 @@ class Settings extends Component {
         return (
             <div>
                 <div style={{ paddingTop: "20px" }}>
-                    <h1>Settings</h1>
+                    <h1 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Settings</h1>
                 </div>
 
                 <div style={{ display: "flex", height: "257px", paddingTop: smallScreen ? "50px" : "10px" }}>

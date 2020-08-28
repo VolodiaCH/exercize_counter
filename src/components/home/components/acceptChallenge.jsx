@@ -252,13 +252,14 @@ class AcceptChallenge extends Component {
                             display: "flex"
                         },
                         name: {
-                            fontSize: "25px"
-
+                            fontSize: "25px",
+                            color: this.props.theme === "dark" ? "white" : "black"
                         },
                         like: {
                             paddingTop: "6px",
                             paddingLeft: "10px",
-                            fontSize: "20px"
+                            fontSize: "20px",
+                            color: this.props.theme === "dark" ? "white" : "black"
                         }
                     },
                     buttons: {
@@ -291,6 +292,9 @@ class AcceptChallenge extends Component {
         const smallScreen = this.props.smallScreen;
         const styles = this.getStyles(smallScreen);
 
+        const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
+        const hrStyle = this.props.theme === "dark" ? whiteHr : {};
+
         return (
             <div style={styles.main}>
                 <Alert
@@ -308,7 +312,7 @@ class AcceptChallenge extends Component {
                 {/* Heading */}
                 <div style={styles.heading.container}>
                     <div>
-                        <h3> Accept Challenge </h3>
+                        <h3 style={{ color: this.props.theme === "dark" ? "white" : "black" }}> Accept Challenge </h3>
                     </div>
 
                     <div style={styles.heading.buttons.container}>
@@ -323,7 +327,7 @@ class AcceptChallenge extends Component {
 
                 {/* Menu */}
                 <div style={styles.menu.main}>
-                    <hr />
+                    <hr style={hrStyle} />
                     <Sort sortBy={sortBy} searchBy={searchBy} handleSort={this.handleSort} smallScreen={smallScreen} />
                 </div>
 
@@ -336,7 +340,7 @@ class AcceptChallenge extends Component {
 
                             return (
                                 <div key={challenge.challenge_id}>
-                                    <hr />
+                                    <hr style={hrStyle} />
                                     <div style={styles.body.challenge.container}>
                                         <div>
                                             <div style={styles.body.challenge.nameContainer.container}>
@@ -382,6 +386,8 @@ class AcceptChallenge extends Component {
                         })
                     }
                 </div>
+
+                <hr style={hrStyle} />
 
                 <div style={{ paddingTop: "10px" }}>
                     <Paginate

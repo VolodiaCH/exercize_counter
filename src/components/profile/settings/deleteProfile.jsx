@@ -39,7 +39,7 @@ class DeleteProfile extends Component {
 
         return (
             <div>
-                <h3>Delete profile</h3>
+                <h3 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Delete profile</h3>
                 <div>
                     <input
                         style={{ borderRadius: "3px" }}
@@ -65,7 +65,7 @@ class DeleteProfile extends Component {
 
                         onChange={this.checkBox}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">I know that I won't be able to restore it.</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1" style={{ color: this.props.theme === "dark" ? "white" : "" }}>I know that I won't be able to restore it.</label>
                 </div>
 
                 <div>

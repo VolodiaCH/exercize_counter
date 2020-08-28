@@ -96,11 +96,11 @@ class TodaysStats extends Component {
                                 }}
                                 key={idx}
                             >
-                                <h4> {exercize} </h4>
+                                <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}> {exercize} </h4>
 
-                                <span>Загалом виконано: {this.state.total[exercize]} раз.</span>
+                                <span style={{ color: this.props.theme === "dark" ? "white" : "" }}>Загалом виконано: {this.state.total[exercize]} раз.</span>
                                 <br />
-                                <span>Максимально за захід: {this.state.max[exercize]} раз.</span>
+                                <span style={{ color: this.props.theme === "dark" ? "white" : "" }}>Максимально за захід: {this.state.max[exercize]} раз.</span>
                             </div>
                         )
                     })

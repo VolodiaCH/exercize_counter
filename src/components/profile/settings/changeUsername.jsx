@@ -59,7 +59,7 @@ class ChangeUsername extends Component {
 
         return (
             <div>
-                <h3>Change username</h3>
+                <h3 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Change username</h3>
 
                 <div>
                     <input

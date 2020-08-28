@@ -209,7 +209,7 @@ class NewChallenge extends Component {
 
                                     onChange={this.handleCheckboxChange}
                                 />
-                                <span htmlFor="blankCheckbox">Publish</span>
+                                <span htmlFor="blankCheckbox" style={{ color: this.props.theme === "dark" ? "white" : "" }}>Publish</span>
                             </div>
                         </div>
                         <div style={styles.secondConteiner.buttons.button}>

@@ -121,10 +121,13 @@ class StatsList extends Component {
     changeIndex = event => this.setState({ currentIndex: event.target.value });
 
     render() {
+        const whiteHr = { height: "1px", backgroundColor: "gray", border: "none" };
+        const hrStyle = this.props.theme === "dark" ? whiteHr : {};
+
         if (!this.state.render) {
             return (
                 <div>
-                    <hr />
+                    <hr style={{ hrStyle }} />
                     <LoadingComponent />
                 </div>
             )
@@ -144,15 +147,15 @@ class StatsList extends Component {
 
         return (
             <div>
-                <hr />
-                <div>
-                    <h4> {exercize} </h4>
+                <hr style={hrStyle} />
+                <div style={{ textAlign: this.props.smallScreen ? "center" : "" }}>
+                    <h4 style={{ color: this.props.theme === "dark" ? "white" : "" }}> {exercize} </h4>
 
-                    <span>Загалом виконано: {this.state.total[exercize]} раз.</span>
+                    <span style={{ color: this.props.theme === "dark" ? "white" : "" }}>Загалом виконано: {this.state.total[exercize]} раз.</span>
                     <br />
-                    <span>Максимально за захід: {this.state.max[exercize]} раз.</span>
+                    <span style={{ color: this.props.theme === "dark" ? "white" : "" }}>Максимально за захід: {this.state.max[exercize]} раз.</span>
                     <br />
-                    <span>Максимально за день: {this.state.maxInDay[exercize]} раз.</span>
+                    <span style={{ color: this.props.theme === "dark" ? "white" : "" }}>Максимально за день: {this.state.maxInDay[exercize]} раз.</span>
 
                     <input
                         type="range"
@@ -168,7 +171,7 @@ class StatsList extends Component {
                         value={this.state.currentIndex}
                         onChange={this.changeIndex}
                     />
-                    <hr />
+                    <hr style={hrStyle} />
                 </div>
             </div>
         );

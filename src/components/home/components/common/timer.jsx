@@ -55,7 +55,7 @@ const Timer = props => {
 
     return (
         <div>
-            <h5>
+            <h5 style={{ color: props.theme === "dark" ? "white" : "" }}>
                 Time left: {message}
             </h5>
         </div>

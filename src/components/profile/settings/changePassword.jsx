@@ -52,7 +52,7 @@ class ChangePassword extends Component {
 
         return (
             <div>
-                <h3>Change password</h3>
+                <h3 style={{ color: this.props.theme === "dark" ? "white" : "" }}>Change password</h3>
                 <div>
                     <input
                         type="password"
